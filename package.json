@@ -1,0 +1,23 @@
+{
+  "name": "pizarra",
+  "author": "Raul Malagarriga",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pizarra",
+    "socket.io",
+    "paint",
+    "websocket"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "node": "^11.0.0",
+    "node.js": "0.0.0",
+    "socket.io": "^2.1.1"
+  }
+}

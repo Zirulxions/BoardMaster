@@ -1,0 +1,11 @@
+#pizarra {
+	border: 3px solid rgb(94, 105, 41);
+	border-radius: 6px;
+	background: rgb(83, 165, 65);
+	margin-left: 15px;
+
+}
+.titulo{
+	margin-left: 10px;
+	color:  rgb(57, 77, 53);
+}
