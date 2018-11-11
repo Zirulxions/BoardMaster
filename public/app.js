@@ -1,11 +1,14 @@
-var user = []; //declarar el array
+var users = [];
 
-function getNickname(){
-	var nickname = document.getElementById("nickname");
+function addUsers(){
+	var usuario = document.getElementById("nickname").value;
 	document.getElementById("user").hidden = true;
 	document.getElementById("board").hidden = false;
-	user.push(nickname); //inserto en el array
-	init();
+	users.push(usuario);
+  	socket.emit('new-user', users);
+  	console.log("addUsers: " + users);
+  	return false;
+	//init();
 }
 
 class Pencil {
@@ -88,11 +91,6 @@ class Pencil {
 		this.pizarra.lineTo(x, y);
 		this.pizarra.stroke();
 	}
-
-	users (user) {
-		this.user;
-		socket.emit('userList', user);
-	}
 }
 
 const socket = io();
@@ -101,18 +99,20 @@ const canvas = document.getElementById("pizarra");
 const pizarra = canvas.getContext("2d");
 const btn = document.getElementById('boton');
 
-function init () {
+//function init () {
 	const pencil = new Pencil(pizarra);
 
 	canvas.addEventListener('mousedown', ev_handler, false);
 	canvas.addEventListener('mousemove', ev_handler, false);
 	canvas.addEventListener('mouseup',	 ev_handler, false);
 	btn.addEventListener('click', ev_change, false);
-	//es posible necesitar un ev_handler
 
 	socket.on('begin', io_begin);
 	socket.on('move', io_move);
-	socket.on('users', io_users);
+
+	socket.on('users', function(data){
+		console.log("socket on users: "+data);
+	});
 
 	function ev_handler (ev) {
 		pencil[ev.type](ev);
@@ -125,8 +125,5 @@ function init () {
 	}
 	function io_move (data) {
 		pencil.moveMsg(data);
-	}
-	function io_users(user){ // Supuestamente aqui envio el array
-		pencil.users(user);  // o esa es mi intencion
-	}                        // no se que puede faltar
-}
+	}    
+//}
