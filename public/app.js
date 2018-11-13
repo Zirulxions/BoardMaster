@@ -1,15 +1,11 @@
-var users = [];
-
 function addUsers(){
 	var usuario = document.getElementById("nickname").value;
 	document.getElementById("user").hidden = true;
 	document.getElementById("board").hidden = false;
-	users.push(usuario);
-  	socket.emit('new-user', users);
-  	console.log("addUsers: " + users);
-  	return false;
-	//init();
+  	socket.emit('new-user', usuario);
+  	console.log("Tu eres: " + usuario);
 }
+
 
 class Pencil {
 
@@ -99,31 +95,30 @@ const canvas = document.getElementById("pizarra");
 const pizarra = canvas.getContext("2d");
 const btn = document.getElementById('boton');
 
-//function init () {
-	const pencil = new Pencil(pizarra);
+const pencil = new Pencil(pizarra);
 
-	canvas.addEventListener('mousedown', ev_handler, false);
-	canvas.addEventListener('mousemove', ev_handler, false);
-	canvas.addEventListener('mouseup',	 ev_handler, false);
-	btn.addEventListener('click', ev_change, false);
+canvas.addEventListener('mousedown', ev_handler, false);
+canvas.addEventListener('mousemove', ev_handler, false);
+canvas.addEventListener('mouseup', ev_handler, false);
+btn.addEventListener('click', ev_change, false);
 
-	socket.on('begin', io_begin);
-	socket.on('move', io_move);
+socket.on('begin', io_begin);
+socket.on('move', io_move);
 
-	socket.on('users', function(data){
-		console.log("socket on users: "+data);
-	});
+socket.on('users', function(data){
+	console.log("Usuarios Conectados: " + data);
+	document.getElementById("onlain").innerHTML = "Usuarios En Linea:" + data;
+});
 
-	function ev_handler (ev) {
-		pencil[ev.type](ev);
-	}
-	function ev_change (ev) {
-		pencil.changeColor()
-	}
-	function io_begin (data) {
-		pencil.begin(data.x, data.y);
-	}
-	function io_move (data) {
-		pencil.moveMsg(data);
-	}    
-//}
+function ev_handler (ev) {
+	pencil[ev.type](ev);
+}
+function ev_change (ev) {
+	pencil.changeColor();
+}
+function io_begin (data) {
+	pencil.begin(data.x, data.y);
+}
+function io_move (data) {
+	pencil.moveMsg(data);
+}    
